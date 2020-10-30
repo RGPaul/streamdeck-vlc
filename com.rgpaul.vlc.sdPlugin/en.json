@@ -1,0 +1,9 @@
+{
+  "Description": "Remote controlling the VLC media player.", 
+  "Name": "VLC Remote", 
+  "Category": "VLC Remote",
+  "com.rgpaul.vlc.title": {
+    "Name": "Title", 
+    "Tooltip": "This action shows the current title."
+  }
+}

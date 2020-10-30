@@ -1,0 +1,43 @@
+{
+  "Actions": [
+    {
+        "Icon": "images/actions/title", 
+        "Name": "Title", 
+        "States": [
+            {
+                "Image": "images/keys/empty",
+                "TitleAlignment": "middle", 
+                "FontSize": "10"
+            }
+        ], 
+        "SupportedInMultiActions": false,
+        "Tooltip": "This action shows the current title", 
+        "UUID": "com.rgpaul.vlc.title"
+    }
+    ], 
+    "SDKVersion": 2,
+    "Author": "Ralph-Gordon Paul", 
+    "CodePathWin": "vlc-remote.exe", 
+    "CodePathMac": "vlc-remote", 
+    "Description": "Remote controlling of VLC media player", 
+    "Name": "VLC Remote", 
+    "Icon": "images/plugin",
+    "Category": "VLC Remote",
+    "CategoryIcon": "images/category",
+    "URL": "https://github.com/RGPaul/streamdeck-vlc", 
+    "Version": "1.0",
+    "OS": [
+        {
+            "Platform": "mac", 
+            "MinimumVersion" : "10.11"
+        },
+        {
+            "Platform": "windows", 
+            "MinimumVersion" : "10"
+        }
+    ],
+    "Software": 
+    {
+        "MinimumVersion" : "4.1"
+    }
+}
