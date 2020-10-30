@@ -1,19 +1,36 @@
 {
   "Actions": [
-    {
-        "Icon": "images/actions/title", 
-        "Name": "Title", 
-        "States": [
-            {
-                "Image": "images/keys/empty",
-                "TitleAlignment": "middle", 
-                "FontSize": "10"
-            }
-        ], 
-        "SupportedInMultiActions": false,
-        "Tooltip": "This action shows the current title", 
-        "UUID": "com.rgpaul.vlc.title"
-    }
+        {
+            "Icon": "images/actions/title", 
+            "Name": "Title", 
+            "States": [
+                {
+                    "Image": "images/keys/empty",
+                    "TitleAlignment": "middle", 
+                    "FontSize": "10"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "This action shows the current title", 
+            "UUID": "com.rgpaul.vlc.title"
+        },
+        {
+            "Icon": "images/actions/play_pause", 
+            "Name": "Play / Pause",
+            "States": [
+                {
+                    "Image": "images/keys/play",
+                    "Name": "Play"
+                },
+                {
+                    "Image": "images/keys/pause",
+                    "Name": "Pause"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "Starts or pauses playback.", 
+            "UUID": "com.rgpaul.vlc.play"
+        }
     ], 
     "SDKVersion": 2,
     "Author": "Ralph-Gordon Paul", 

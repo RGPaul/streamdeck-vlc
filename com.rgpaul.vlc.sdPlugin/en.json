@@ -4,6 +4,10 @@
   "Category": "VLC Remote",
   "com.rgpaul.vlc.title": {
     "Name": "Title", 
-    "Tooltip": "This action shows the current title."
+    "Tooltip": "Shows the current title."
+  },
+  "com.rgpaul.vlc.play": {
+    "Name": "Play / Pause", 
+    "Tooltip": "Starts or pauses playback."
   }
 }
