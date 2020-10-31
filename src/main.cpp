@@ -8,10 +8,10 @@
 **/
 //======================================================================================================================
 
-#include <StreamDeckSDK/ESDConnectionManager.h>
+#include <StreamDeckSdk/ESDConnectionManager.h>
 
-#include <StreamDeckSDK/ESDLocalizer.h>
-#include <StreamDeckSDK/EPLJSONUtils.h>
+#include <StreamDeckSdk/ESDLocalizer.h>
+#include <StreamDeckSdk/EPLJSONUtils.h>
 
 #include "VlcStreamDeckPlugin.hpp"
 
@@ -83,8 +83,8 @@ int main(int argc, const char* const argv[])
 	
 	try
 	{
-		json infoJson = json::parse(info);
-		json applicationInfo;
+		nlohmann::json infoJson = nlohmann::json::parse(info);
+		nlohmann::json applicationInfo;
 		if(EPLJSONUtils::GetObjectByName(infoJson, kESDSDKApplicationInfo, applicationInfo))
 		{
 			language = EPLJSONUtils::GetStringByName(applicationInfo, kESDSDKApplicationInfoLanguage, language);

@@ -12,7 +12,7 @@
 
 #include <atomic>
 
-#include <StreamDeckSDK/ESDConnectionManager.h>
+#include <StreamDeckSdk/ESDConnectionManager.h>
 
 class CallBackTimer
 {
@@ -97,17 +97,20 @@ void VlcStreamDeckPlugin::UpdateTimer()
 	}
 }
 
-void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const std::string& inContext, const json &inPayload, const std::string& inDeviceID)
+void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const std::string& inContext,
+										   const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
 	// Nothing to do
 }
 
-void VlcStreamDeckPlugin::KeyUpForAction(const std::string& inAction, const std::string& inContext, const json &inPayload, const std::string& inDeviceID)
+void VlcStreamDeckPlugin::KeyUpForAction(const std::string& inAction, const std::string& inContext,
+             							 const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
 	// Nothing to do
 }
 
-void VlcStreamDeckPlugin::WillAppearForAction(const std::string& inAction, const std::string& inContext, const json &inPayload, const std::string& inDeviceID)
+void VlcStreamDeckPlugin::WillAppearForAction(const std::string& inAction, const std::string& inContext,
+											  const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
 	// Remember the context
 	_visibleContextsMutex.lock();
@@ -115,7 +118,8 @@ void VlcStreamDeckPlugin::WillAppearForAction(const std::string& inAction, const
 	_visibleContextsMutex.unlock();
 }
 
-void VlcStreamDeckPlugin::WillDisappearForAction(const std::string& inAction, const std::string& inContext, const json &inPayload, const std::string& inDeviceID)
+void VlcStreamDeckPlugin::WillDisappearForAction(const std::string& inAction, const std::string& inContext,
+												 const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
 	// Remove the context
 	_visibleContextsMutex.lock();
@@ -123,7 +127,7 @@ void VlcStreamDeckPlugin::WillDisappearForAction(const std::string& inAction, co
 	_visibleContextsMutex.unlock();
 }
 
-void VlcStreamDeckPlugin::DeviceDidConnect(const std::string& inDeviceID, const json &inDeviceInfo)
+void VlcStreamDeckPlugin::DeviceDidConnect(const std::string& inDeviceID, const nlohmann::json &inDeviceInfo)
 {
 	// Nothing to do
 }
@@ -133,7 +137,8 @@ void VlcStreamDeckPlugin::DeviceDidDisconnect(const std::string& inDeviceID)
 	// Nothing to do
 }
 
-void VlcStreamDeckPlugin::SendToPlugin(const std::string& inAction, const std::string& inContext, const json &inPayload, const std::string& inDeviceID)
+void VlcStreamDeckPlugin::SendToPlugin(const std::string& inAction, const std::string& inContext,
+									   const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
 	// Nothing to do
 }
