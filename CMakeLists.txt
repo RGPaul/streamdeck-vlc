@@ -50,8 +50,10 @@ endif()
 ### link external libraries ###
 
 # Boost - https://www.boost.org
-set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost 1.73.0 COMPONENTS system)
+set(Boost_USE_STATIC_LIBS ON )
+set(Boost_USE_MULTITHREADED ON)
+set(Boost_USE_STATIC_RUNTIME ON)
+find_package(Boost 1.73.0 COMPONENTS system random)
 
 # nlohmann json - https://github.com/nlohmann/json
 set(NlohmannJson_INCLUDE    "${CMAKE_SOURCE_DIR}/deps/nlohmann_json/include")
@@ -79,6 +81,10 @@ endif()
 if (WIN32)
     # add windows specific sources
     target_sources(vlc-remote PRIVATE "${CMAKE_SOURCE_DIR}/deps/StreamDeckSdk/ESDUtilitiesWindows.cpp")
+
+    # set msvc runtime property
+    set_property(TARGET vlc-remote PROPERTY
+                    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
 endif()
 
 ### link libraries ###
@@ -89,6 +95,14 @@ target_include_directories(vlc-remote PRIVATE
                             ${Websocketpp_INCLUDE}
                             ${StreamDeckSdk_INCLUDE}
                             )
+
+target_link_libraries(vlc-remote
+                        ${Boost_LIBRARIES})
+
+if(APPLE)
+    target_link_libraries(vlc-remote
+                            "-framework Foundation")
+endif()
 
 ### PCH ###
 
@@ -104,10 +118,6 @@ endif()
 if(UNIX AND NOT APPLE)
     target_link_libraries(vlc-remote dl pthread)
 endif()
-
-target_link_libraries(vlc-remote
-                      ${Boost_LIBRARIES}
-                      "-framework Foundation")
 
 # installation 
 install(TARGETS vlc-remote
