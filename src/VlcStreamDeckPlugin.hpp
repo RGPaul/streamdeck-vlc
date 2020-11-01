@@ -17,6 +17,7 @@
 #include <nlohmann/json.hpp>
 
 #include "CallBackTimer.hpp"
+#include "VlcConnectionManager.hpp"
 
 class VlcStreamDeckPlugin : public ESDBasePlugin
 {
@@ -49,6 +50,7 @@ private:
 	std::set<std::string> _visibleContexts;
 	
 	CallBackTimer* _timer { nullptr };
+	VlcConnectionManager* _vlcConnectionManager { nullptr };
 
 	int _playButtonState { 0 };
 };

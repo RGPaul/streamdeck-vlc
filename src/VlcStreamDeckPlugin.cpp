@@ -20,20 +20,30 @@ static const int kKeyStatePause = 1;
 VlcStreamDeckPlugin::VlcStreamDeckPlugin()
 {
 	_timer = new CallBackTimer();
+	/*
 	_timer->start(1000, [this]()
 	{
 		this->UpdateTimer();
 	});
+	*/
+
+	_vlcConnectionManager = new VlcConnectionManager();
 }
 
 VlcStreamDeckPlugin::~VlcStreamDeckPlugin()
 {
-	if(_timer != nullptr)
+	if (_timer != nullptr)
 	{
 		_timer->stop();
 		
 		delete _timer;
 		_timer = nullptr;
+	}
+
+	if (_vlcConnectionManager != nullptr)
+	{
+		delete _vlcConnectionManager;
+		_vlcConnectionManager = nullptr;
 	}
 }
 
@@ -56,7 +66,13 @@ void VlcStreamDeckPlugin::UpdateTimer()
 void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const std::string& inContext,
 										   const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
-	// Nothing to do
+	// Play / Pause
+	if (inAction == "com.rgpaul.vlc.play")
+	{
+		std::string s = _vlcConnectionManager->sendTest();
+		mConnectionManager->LogMessage(s);
+		mConnectionManager->SetTitle("Test", inContext, kESDSDKTarget_HardwareAndSoftware);
+	}
 }
 
 void VlcStreamDeckPlugin::KeyUpForAction(const std::string& inAction, const std::string& inContext,

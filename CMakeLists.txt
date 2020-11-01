@@ -70,6 +70,7 @@ set(StreamDeckSdk_SRC   "${CMAKE_SOURCE_DIR}/deps/StreamDeckSdk/ESDConnectionMan
 
 add_executable(vlc-remote
                 ${StreamDeckSdk_SRC}
+                src/VlcConnectionManager.cpp
                 src/VlcStreamDeckPlugin.cpp
                 src/main.cpp)
 
