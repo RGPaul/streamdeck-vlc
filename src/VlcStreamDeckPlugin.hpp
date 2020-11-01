@@ -16,7 +16,7 @@
 
 #include <nlohmann/json.hpp>
 
-class CallBackTimer;
+#include "CallBackTimer.hpp"
 
 class VlcStreamDeckPlugin : public ESDBasePlugin
 {
@@ -48,5 +48,7 @@ private:
 	std::mutex _visibleContextsMutex;
 	std::set<std::string> _visibleContexts;
 	
-	CallBackTimer *_timer { nullptr };
+	CallBackTimer* _timer { nullptr };
+
+	int _playButtonState { 0 };
 };
