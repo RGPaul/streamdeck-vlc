@@ -42,6 +42,8 @@ public:
 	void SendToPlugin(const std::string& inAction, const std::string& inContext, const nlohmann::json &inPayload,
 				      const std::string& inDeviceID) override;
 
+	void DidReceiveGlobalSettings(const nlohmann::json& inPayload) override;
+
 private:
 
 	void UpdateTimer();

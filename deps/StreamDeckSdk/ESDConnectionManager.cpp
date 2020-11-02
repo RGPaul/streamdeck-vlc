@@ -79,35 +79,39 @@ void ESDConnectionManager::OnMessage(websocketpp::connection_hdl, WebsocketClien
 			json payload;
 			EPLJSONUtils::GetObjectByName(receivedJson, kESDSDKCommonPayload, payload);
 
-			if(event == kESDSDKEventKeyDown)
+			if (event == kESDSDKEventKeyDown)
 			{
 				mPlugin->KeyDownForAction(action, context, payload, deviceID);
 			}
-			else if(event == kESDSDKEventKeyUp)
+			else if (event == kESDSDKEventKeyUp)
 			{
 				mPlugin->KeyUpForAction(action, context, payload, deviceID);
 			}
-			else if(event == kESDSDKEventWillAppear)
+			else if (event == kESDSDKEventWillAppear)
 			{
 				mPlugin->WillAppearForAction(action, context, payload, deviceID);
 			}
-			else if(event == kESDSDKEventWillDisappear)
+			else if (event == kESDSDKEventWillDisappear)
 			{
 				mPlugin->WillDisappearForAction(action, context, payload, deviceID);
 			}
-			else if(event == kESDSDKEventDeviceDidConnect)
+			else if (event == kESDSDKEventDeviceDidConnect)
 			{
 				json deviceInfo;
 				EPLJSONUtils::GetObjectByName(receivedJson, kESDSDKCommonDeviceInfo, deviceInfo);
 				mPlugin->DeviceDidConnect(deviceID, deviceInfo);
 			}
-			else if(event == kESDSDKEventDeviceDidDisconnect)
+			else if (event == kESDSDKEventDeviceDidDisconnect)
 			{
 				mPlugin->DeviceDidDisconnect(deviceID);
 			}
 			else if (event == kESDSDKEventSendToPlugin)
 			{
 				mPlugin->SendToPlugin(action, context, payload, deviceID);
+			}
+			else if (event == kESDSDKEventDidReceiveGlobalSettings) 
+			{
+        		mPlugin->DidReceiveGlobalSettings(payload);
 			}
 		}
 		catch (...)

@@ -114,3 +114,8 @@ void VlcStreamDeckPlugin::SendToPlugin(const std::string& inAction, const std::s
 {
 	// Nothing to do
 }
+
+void VlcStreamDeckPlugin::DidReceiveGlobalSettings(const nlohmann::json& inPayload)
+{
+
+}
