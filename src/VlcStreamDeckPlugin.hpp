@@ -10,6 +10,8 @@
 
 #include <StreamDeckSdk/ESDBasePlugin.h>
 
+#include <stdint.h>
+
 #include <string>
 #include <mutex>
 #include <set>
@@ -18,6 +20,7 @@
 
 #include "CallBackTimer.hpp"
 #include "VlcConnectionManager.hpp"
+#include "VlcStatus.hpp"
 
 class VlcStreamDeckPlugin : public ESDBasePlugin
 {
@@ -49,10 +52,22 @@ private:
 	void UpdateTimer();
 	
 	std::mutex _visibleContextsMutex;
-	std::set<std::string> _visibleContexts;
+	std::set<std::string> _visiblePlayContexts; //!< contains all play/pause button contexts
+	std::set<std::string> _visibleTitleContexts; //!< contains all title button contexts
 	
 	CallBackTimer* _timer { nullptr };
 	VlcConnectionManager* _vlcConnectionManager { nullptr };
 
-	int _playButtonState { 0 };
+	// we store the number of failed update calls - if the last 5 calls failed, we will stop so we don't drawn
+	// the log file
+	uint8_t _lastUnsuccessfulUpdates { 0 };
+
+	VlcStatus _currentStatus;
+
+	// send an update request to vlc server and then updates the buttons with the newly received data
+	void updateVlcStatus();
+	
+	// updates the stream deck buttons with the given payload (must be from status.json)
+	void updateVlcStatus(const nlohmann::json &payload);
+
 };

@@ -21,16 +21,19 @@ static const int kKeyStatePause = 1;
 static const char* const kActionIdPlay = "com.rgpaul.vlc.play";
 static const char* const kActionIdTitle = "com.rgpaul.vlc.title";
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Constructor / Destructor
+// ---------------------------------------------------------------------------------------------------------------------
+
 VlcStreamDeckPlugin::VlcStreamDeckPlugin()
 {
 	_timer = new CallBackTimer();
-	/*
-	_timer->start(1000, [this]()
+	
+	_timer->start(3000, [this]()
 	{
 		this->UpdateTimer();
 	});
-	*/
-
+	
 	_vlcConnectionManager = new VlcConnectionManager();
 }
 
@@ -51,19 +54,18 @@ VlcStreamDeckPlugin::~VlcStreamDeckPlugin()
 	}
 }
 
+// ---------------------------------------------------------------------------------------------------------------------
+// Public
+// ---------------------------------------------------------------------------------------------------------------------
+
 void VlcStreamDeckPlugin::UpdateTimer()
 {
 	//
 	// Warning: UpdateTimer() is running in the timer thread
 	//
-	if(mConnectionManager != nullptr)
+	if(mConnectionManager != nullptr && _lastUnsuccessfulUpdates < 5)
 	{
-		_visibleContextsMutex.lock();
-		for (const std::string& context : _visibleContexts)
-		{
-			mConnectionManager->SetTitle("Test", context, kESDSDKTarget_HardwareAndSoftware);
-		}
-		_visibleContextsMutex.unlock();
+		updateVlcStatus();
 	}
 }
 
@@ -90,7 +92,8 @@ void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const st
 		}
 		else
 		{
-			mConnectionManager->LogMessage("play/pause failed: " + payload.dump());
+			std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+			mConnectionManager->LogMessage("play/pause failed: " + logMessage);
 		}
 	}
 }
@@ -110,18 +113,32 @@ void VlcStreamDeckPlugin::WillAppearForAction(const std::string& inAction, const
 	if (!_vlcConnectionManager->hasPasswordSet())
 		mConnectionManager->RequestGlobalSettings(inDeviceID);
 
-	// Remember the context
+	// remember the context
 	_visibleContextsMutex.lock();
-	_visibleContexts.insert(inContext);
+
+	if (inAction == kActionIdPlay)
+	{
+		_visiblePlayContexts.insert(inContext);
+	}
+	else if (inAction == kActionIdTitle)
+	{
+		_visibleTitleContexts.insert(inContext);
+	}
+
 	_visibleContextsMutex.unlock();
 }
 
 void VlcStreamDeckPlugin::WillDisappearForAction(const std::string& inAction, const std::string& inContext,
 												 const nlohmann::json &inPayload, const std::string& inDeviceID)
 {
-	// Remove the context
+	// remove the context
 	_visibleContextsMutex.lock();
-	_visibleContexts.erase(inContext);
+
+	if (inAction == kActionIdPlay)
+		_visiblePlayContexts.erase(inContext);
+	else if (inAction == kActionIdTitle)
+		_visibleTitleContexts.erase(inContext);
+
 	_visibleContextsMutex.unlock();
 }
 
@@ -144,7 +161,7 @@ void VlcStreamDeckPlugin::SendToPlugin(const std::string& inAction, const std::s
 
 void VlcStreamDeckPlugin::DidReceiveGlobalSettings(const nlohmann::json& inPayload)
 {
-	mConnectionManager->LogMessage("received global settings: " + inPayload.dump());
+	mConnectionManager->LogMessage("received global settings");
 
 	nlohmann::json settings;
   	EPLJSONUtils::GetObjectByName(inPayload, "settings", settings);
@@ -156,4 +173,55 @@ void VlcStreamDeckPlugin::DidReceiveGlobalSettings(const nlohmann::json& inPaylo
 	_vlcConnectionManager->setHost(host);
 	_vlcConnectionManager->setPort(port);
 	_vlcConnectionManager->setPassword(password);
+
+	// connection details changed - so we might be able to update the vlc server state now
+	updateVlcStatus();
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Private
+// ---------------------------------------------------------------------------------------------------------------------
+
+void VlcStreamDeckPlugin::updateVlcStatus()
+{
+	nlohmann::json payload;
+	// only try connecting if there is a password
+	if (_vlcConnectionManager->hasPasswordSet())
+	{
+		// get's the status.json from vlc
+		if (_vlcConnectionManager->getStatus(payload))
+		{
+			_lastUnsuccessfulUpdates = 0;
+			updateVlcStatus(payload);
+		}
+		else
+		{
+			_lastUnsuccessfulUpdates++;
+			std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+			mConnectionManager->LogMessage("update status failed: " + logMessage);
+		}
+	}
+}
+
+void VlcStreamDeckPlugin::updateVlcStatus(const nlohmann::json &payload)
+{
+	_currentStatus = VlcStatus(payload);
+
+	_visibleContextsMutex.lock();
+	
+	if (_currentStatus.playState() == VlcStatus::PlayState::Playing)
+	{
+		for (const std::string& context : _visiblePlayContexts)
+			mConnectionManager->SetState(kKeyStatePause, context);
+	}
+	else
+	{
+		for (const std::string& context : _visiblePlayContexts)
+			mConnectionManager->SetState(kKeyStatePlay, context);
+	}
+
+	for (const std::string& context : _visibleTitleContexts)
+		mConnectionManager->SetTitle(_currentStatus.songTitle(), context, kESDSDKTarget_HardwareAndSoftware);
+	
+	_visibleContextsMutex.unlock();
 }

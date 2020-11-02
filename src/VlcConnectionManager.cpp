@@ -106,6 +106,7 @@ bool VlcConnectionManager::sendPause(nlohmann::json& outPayload) const
 
 bool VlcConnectionManager::sendGetRequest(const std::string& target, nlohmann::json& outPayload) const
 {
+    bool gotValidResponse { false };
     std::string authHeader = std::string("Basic ") + websocketpp::base64_encode(":" + _password);
 
     // io_context is required for input / output
@@ -115,45 +116,87 @@ bool VlcConnectionManager::sendGetRequest(const std::string& target, nlohmann::j
     tcp::resolver resolver(ioc);
     beast::tcp_stream stream(ioc);
 
-    // domain lookup
-    auto const results = resolver.resolve(_host, _port);
+    try
+    {
+        // domain lookup
+        auto const results = resolver.resolve(_host, _port);
 
-    // create connection to the server
-    stream.connect(results);
+        // create connection to the server
+        stream.connect(results);
 
-    // create an http get request
-    http::request<http::string_body> req { http::verb::get, target, _httpVersion };
-    req.set(http::field::host, _host);
-    req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-    req.set(http::field::authorization, authHeader);
+        // create an http get request
+        http::request<http::string_body> req { http::verb::get, target, _httpVersion };
+        req.set(http::field::host, _host);
+        req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+        req.set(http::field::authorization, authHeader);
+            
+        // send the http request
+        http::write(stream, req);
+
+        // a buffer for reading beast messages
+        beast::flat_buffer buffer;
+
+        // container for the response
+        http::response<http::string_body> res;
+
+        // receive the http response
+        http::read(stream, buffer, res);
+
+        if (res.result() == http::status::ok)
+        {
+            outPayload = nlohmann::json::parse(res.body());
+            gotValidResponse = true;
+        }
+        else if (res.result() == http::status::unauthorized)
+        {
+            std::string message = "Authentication to VLC Server failed.";
+            std::string logMessage = "Authentication to VLC Server failed.";
+            
+            nlohmann::json jsonObject;
+            jsonObject["error"] = true;
+            jsonObject["message"] = message;
+            jsonObject["logMessage"] = logMessage;
+
+            outPayload = jsonObject;
+        }
+        else
+        {
+            std::string message = "Received Unknown Error from Server.";
+            std::string logMessage = std::string("Received Unknown Error from Server: ") 
+                + std::to_string(res.result_int());
+            
+            nlohmann::json jsonObject;
+            jsonObject["error"] = true;
+            jsonObject["message"] = message;
+            jsonObject["logMessage"] = logMessage;
+
+            outPayload = jsonObject;
+        }
+
+        // close the socket
+        beast::error_code ec;
+        stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+
+        // not_connected happens sometimes, throw for all other errors
+        if(ec && ec != beast::errc::not_connected) 
+        {
+            // beast::system_error { ec }
+        }
+    }
+    catch (beast::system_error& e)
+    {
+        gotValidResponse = false;
+
+        std::string message = "Error connecting to VLC Server.";
+        std::string logMessage = std::string("Error connecting to VLC Server: ") + e.what();
         
-    // send the http request
-    http::write(stream, req);
+        nlohmann::json jsonObject;
+        jsonObject["error"] = true;
+        jsonObject["message"] = message;
+        jsonObject["logMessage"] = logMessage;
 
-    // a buffer for reading beast messages
-    beast::flat_buffer buffer;
-
-    // container for the response
-    http::response<http::string_body> res;
-
-    // receive the http response
-    http::read(stream, buffer, res);
-
-    if (res.result() == http::status::ok)
-    {
-        outPayload = nlohmann::json::parse(res.body());
+        outPayload = jsonObject;
     }
 
-    // close the socket
-    beast::error_code ec;
-    stream.socket().shutdown(tcp::socket::shutdown_both, ec);
-
-    // not_connected happens sometimes, throw for all other errors
-    if(ec && ec != beast::errc::not_connected) 
-    {
-        // beast::system_error { ec }
-        return false;
-    }
-
-    return true;
+    return gotValidResponse;
 }
