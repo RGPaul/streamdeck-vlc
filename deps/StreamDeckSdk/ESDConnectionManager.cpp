@@ -301,6 +301,18 @@ void ESDConnectionManager::SwitchToProfile(const std::string& inDeviceID, const 
 	}
 }
 
+void ESDConnectionManager::RequestGlobalSettings(const std::string& inDeviceID)
+{
+	json jsonObject;
+
+	jsonObject[kESDSDKCommonEvent] = kESDSDKEventGetGlobalSettings;
+	jsonObject[kESDSDKCommonContext] = mPluginUUID;
+	jsonObject[kESDSDKCommonDevice] = inDeviceID;
+	
+	websocketpp::lib::error_code ec;
+	mWebsocket.send(mConnectionHandle, jsonObject.dump(), websocketpp::frame::opcode::text, ec);
+}
+
 void ESDConnectionManager::LogMessage(const std::string& inMessage)
 {
 	if(!inMessage.empty())

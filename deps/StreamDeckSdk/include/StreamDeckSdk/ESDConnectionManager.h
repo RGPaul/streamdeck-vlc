@@ -48,6 +48,7 @@ public:
 	void SendToPropertyInspector(const std::string& inAction, const std::string& inContext, 
 								 const nlohmann::json &inPayload);
 	void SwitchToProfile(const std::string& inDeviceID, const std::string& inProfileName);
+	void RequestGlobalSettings(const std::string& inDeviceID);
 	void LogMessage(const std::string& inMessage);
 
 private:
