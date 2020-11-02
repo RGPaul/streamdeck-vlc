@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta name=viewport content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,minimal-ui,viewport-fit=cover">
+        <meta name=apple-mobile-web-app-capable content=yes>
+        <meta name=apple-mobile-web-app-status-bar-style content=black>
+        <title>com.rgpaul.vlc Property Inspector</title>
+        <link rel="stylesheet" href="css/sdpi.css">
+    </head>
+    <body>
+        <div class="sdpi-wrapper">
+
+            <!-- DROP HTML-STUFF BELOW -->
+
+            <div class="sdpi-item">
+                <div class="sdpi-item-label">Host</div>
+                <input id="vlc_host" class="sdpi-item-value" type="text" value="localhost" onchange="saveSettings();" required />
+            </div>
+
+            <div class="sdpi-item">
+                <div class="sdpi-item-label">Port</div>
+                <input id="vlc_port" class="sdpi-item-value" type="text" value="8080" onchange="saveSettings();" required />
+            </div>
+
+            <div class="sdpi-item">
+                <div class="sdpi-item-label">Password</div>
+                <input id="vlc_password" class="sdpi-item-value" type="password" value="" onchange="saveSettings();" required />
+            </div>
+
+            <!-- END OF SDPI-WRAPPER -->
+        </div>
+
+        <div class="sdpi-info-label hidden" style="top: -1000;" value=""></div>
+        <script src="js/common.js"></script>
+        <script src="js/common_pi.js"></script>
+        <script src="js/index_pi.js"></script>
+    </body>
+</html>

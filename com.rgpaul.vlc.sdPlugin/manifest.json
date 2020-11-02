@@ -36,6 +36,7 @@
     "Author": "Ralph-Gordon Paul", 
     "CodePathWin": "vlc-remote.exe", 
     "CodePathMac": "vlc-remote", 
+    "PropertyInspectorPath": "propertyinspector/index.html", 
     "Description": "Remote controlling of VLC media player", 
     "Name": "VLC Remote", 
     "Icon": "images/plugin",
