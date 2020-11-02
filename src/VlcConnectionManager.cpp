@@ -33,77 +33,127 @@ namespace http = beast::http;       // from <boost/beast/http.hpp>
 namespace net = boost::asio;        // from <boost/asio.hpp>
 using tcp = net::ip::tcp;           // from <boost/asio/ip/tcp.hpp>
 
-VlcConnectionManager::VlcConnectionManager()
+// ---------------------------------------------------------------------------------------------------------------------
+// Constructor / Destructor
+// ---------------------------------------------------------------------------------------------------------------------
+
+VlcConnectionManager::VlcConnectionManager() { }
+
+VlcConnectionManager::~VlcConnectionManager() { }
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Accessors
+// ---------------------------------------------------------------------------------------------------------------------
+
+void VlcConnectionManager::setHost(const std::string& host)
 {
+    _host = host;
 }
 
-VlcConnectionManager::~VlcConnectionManager()
+std::string VlcConnectionManager::host() const
 {
+    return _host;
 }
 
-std::string VlcConnectionManager::sendTest()
+void VlcConnectionManager::setPort(const std::string& port)
 {
-    std::string s;
+    _port = port;
+}
 
-    try
+std::string VlcConnectionManager::port() const
+{
+    return _port;
+}
+
+void VlcConnectionManager::setPassword(const std::string& password)
+{
+    _password = password;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Public
+// ---------------------------------------------------------------------------------------------------------------------
+
+bool VlcConnectionManager::hasPasswordSet() const
+{
+    return !_password.empty();
+}
+
+bool VlcConnectionManager::getStatus(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json";
+
+    return sendGetRequest(target, outPayload);
+}
+
+bool VlcConnectionManager::sendPlay(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=pl_play";
+    
+    return sendGetRequest(target, outPayload);
+}
+
+bool VlcConnectionManager::sendPause(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=pl_pause";
+    
+    return sendGetRequest(target, outPayload);
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Private
+// ---------------------------------------------------------------------------------------------------------------------
+
+bool VlcConnectionManager::sendGetRequest(const std::string& target, nlohmann::json& outPayload) const
+{
+    std::string authHeader = std::string("Basic ") + websocketpp::base64_encode(":" + _password);
+
+    // io_context is required for input / output
+    net::io_context ioc;
+
+    // these objects perform the input / output
+    tcp::resolver resolver(ioc);
+    beast::tcp_stream stream(ioc);
+
+    // domain lookup
+    auto const results = resolver.resolve(_host, _port);
+
+    // create connection to the server
+    stream.connect(results);
+
+    // create an http get request
+    http::request<http::string_body> req { http::verb::get, target, _httpVersion };
+    req.set(http::field::host, _host);
+    req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
+    req.set(http::field::authorization, authHeader);
+        
+    // send the http request
+    http::write(stream, req);
+
+    // a buffer for reading beast messages
+    beast::flat_buffer buffer;
+
+    // container for the response
+    http::response<http::string_body> res;
+
+    // receive the http response
+    http::read(stream, buffer, res);
+
+    if (res.result() == http::status::ok)
     {
-        auto const host = "127.0.0.1";
-        auto const port = "8080";
-        auto const target = "/requests/status.json";
-        int version = 11;
-        std::string authHeader = std::string("Basic ") + websocketpp::base64_encode(":topsecret");
-
-        // The io_context is required for all I/O
-        net::io_context ioc;
-
-        // These objects perform our I/O
-        tcp::resolver resolver(ioc);
-        beast::tcp_stream stream(ioc);
-
-        // Look up the domain name
-        auto const results = resolver.resolve(host, port);
-
-        // Make the connection on the IP address we get from a lookup
-        stream.connect(results);
-
-        // Set up an HTTP GET request message
-        http::request<http::string_body> req { http::verb::get, target, version };
-        req.set(http::field::host, host);
-        req.set(http::field::user_agent, BOOST_BEAST_VERSION_STRING);
-        req.set(http::field::authorization, authHeader);
-
-        // Send the HTTP request to the remote host
-        http::write(stream, req);
-
-        // This buffer is used for reading and must be persisted
-        beast::flat_buffer buffer;
-
-        // Declare a container to hold the response
-        http::response<http::string_body> res;
-
-        // Receive the HTTP response
-        http::read(stream, buffer, res);
-
-        if (res.result() == http::status::ok)
-        {
-            s = res.body();
-        }
-
-        // Gracefully close the socket
-        beast::error_code ec;
-        stream.socket().shutdown(tcp::socket::shutdown_both, ec);
-
-        // not_connected happens sometimes
-        // so don't bother reporting it.
-        if(ec && ec != beast::errc::not_connected)
-            throw beast::system_error { ec };
-
-        // If we get here then the connection is closed gracefully
+        outPayload = nlohmann::json::parse(res.body());
     }
-    catch(std::exception const& e)
+
+    // close the socket
+    beast::error_code ec;
+    stream.socket().shutdown(tcp::socket::shutdown_both, ec);
+
+    // not_connected happens sometimes, throw for all other errors
+    if(ec && ec != beast::errc::not_connected) 
     {
-        // 
+        // beast::system_error { ec }
+        return false;
     }
 
-    return s;
+    return true;
 }

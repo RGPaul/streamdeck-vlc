@@ -21,8 +21,12 @@
 
 #pragma once
 
-#include <stdint.h>
 #include <string>
+
+#include <boost/asio.hpp>
+#include <boost/beast.hpp>
+
+#include <nlohmann/json.hpp>
 
 class VlcConnectionManager
 {
@@ -31,10 +35,48 @@ public:
 	VlcConnectionManager();
 	virtual ~VlcConnectionManager();
 	
-	std::string sendTest();
+	// Accessors
+	void setHost(const std::string& host);
+	std::string host() const;
+	void setPort(const std::string& port);
+	std::string port() const;
+	void setPassword(const std::string& password);
+
+	bool hasPasswordSet() const;
+
+	/*!
+	 * @brief request status from vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool getStatus(nlohmann::json& outPayload) const;
+
+	/*!
+	 * @brief send play command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendPlay(nlohmann::json& outPayload) const;
+
+	/*!
+	 * @brief send pause command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendPause(nlohmann::json& outPayload) const;
 
 private:
 
     std::string _host { "127.0.0.1" };
-    uint16_t _port { 8080 };
+    std::string _port { "8080" };
+	std::string _password;
+
+	int _httpVersion { 11 }; // HTTP 1.1
+
+	// sends a get request to the given target and writes the output to outPayload, on error the error will be written
+	// into the payload
+	bool sendGetRequest(const std::string& target, nlohmann::json& outPayload) const;
 };
