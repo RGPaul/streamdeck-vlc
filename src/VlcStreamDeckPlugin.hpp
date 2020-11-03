@@ -54,6 +54,7 @@ private:
 	std::mutex _visibleContextsMutex;
 	std::set<std::string> _visiblePlayContexts; //!< contains all play/pause button contexts
 	std::set<std::string> _visibleTitleContexts; //!< contains all title button contexts
+	std::set<std::string> _allVisibleContexts; //!< contains all button contexts
 	
 	CallBackTimer* _timer { nullptr };
 	VlcConnectionManager* _vlcConnectionManager { nullptr };
@@ -68,12 +69,13 @@ private:
 	void updateVlcStatus();
 	
 	// updates the stream deck buttons with the given payload (must be from status.json)
-	void updateVlcStatus(const nlohmann::json &payload);
+	void updateVlcStatus(const nlohmann::json& payload);
 
-	void keyPressedPlay(const nlohmann::json &inPayload);
-	void keyPressedNext(const nlohmann::json &inPayload);
-	void keyPressedPrevious(const nlohmann::json &inPayload);
-	void keyPressedVolumeUp(const nlohmann::json &inPayload);
-	void keyPressedVolumeDown(const nlohmann::json &inPayload);
+	void keyPressedPlay(const nlohmann::json& inPayload);
+	void keyPressedNext(const nlohmann::json& inPayload);
+	void keyPressedPrevious(const nlohmann::json& inPayload);
+	void keyPressedVolumeUp(const nlohmann::json& inPayload);
+	void keyPressedVolumeDown(const nlohmann::json& inPayload);
 
+	void processVlcResponse(const std::string& functionName, bool success, const nlohmann::json& payload);
 };

@@ -13,6 +13,8 @@
 
             <!-- DROP HTML-STUFF BELOW -->
 
+            <div class="sdpi-heading">Global Settings</div>
+
             <div class="sdpi-item">
                 <div class="sdpi-item-label">Host</div>
                 <input id="vlc_host" class="sdpi-item-value" type="text" value="localhost" onchange="saveSettings();" required />
@@ -27,6 +29,11 @@
                 <div class="sdpi-item-label">Password</div>
                 <input id="vlc_password" class="sdpi-item-value" type="password" value="" onchange="saveSettings();" required />
             </div>
+
+            <div class="sdpi-heading">Status</div>
+
+            <p id="rpc-state"></p>
+            <p id="rpc-state-date"></p>
 
             <!-- END OF SDPI-WRAPPER -->
         </div>

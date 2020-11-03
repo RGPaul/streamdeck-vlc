@@ -36,6 +36,18 @@ $SD.on('didReceiveGlobalSettings', (jsonObj) =>
     document.getElementById('mainWrapper').classList.remove('hidden');
 });
 
+$SD.on('sendToPropertyInspector', (jsonObj) => 
+{
+    const payload = jsonObj.payload;
+    const event = payload.event;
+    
+    if (event != "com.rgpaul.vlc.rpc.state")
+        return;
+    
+    document.getElementById('rpc-state').innerText = payload.state;
+    document.getElementById('rpc-state-date').innerText = (new Date()).toLocaleString();
+});
+
 function saveSettings()
 {
     const vlcHost = document.getElementById('vlc_host').value;
