@@ -68,6 +68,38 @@ public:
 	 */
 	bool sendPause(nlohmann::json& outPayload) const;
 
+	/*!
+	 * @brief send next command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendNext(nlohmann::json& outPayload) const;
+
+	/*!
+	 * @brief send prev command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendPrevious(nlohmann::json& outPayload) const;
+
+	/*!
+	 * @brief send volume up command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendVolumeUp(nlohmann::json& outPayload) const;
+
+	/*!
+	 * @brief send volume down command to vlc server
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendVolumeDown(nlohmann::json& outPayload) const;
+
 private:
 
     std::string _host { "127.0.0.1" };

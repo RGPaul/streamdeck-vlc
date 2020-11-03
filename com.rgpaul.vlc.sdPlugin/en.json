@@ -9,5 +9,21 @@
   "com.rgpaul.vlc.play": {
     "Name": "Play / Pause", 
     "Tooltip": "Starts or pauses playback."
+  },
+  "com.rgpaul.vlc.next": {
+    "Name": "Next", 
+    "Tooltip": "Jump to next track."
+  },
+  "com.rgpaul.vlc.prev": {
+    "Name": "Previous", 
+    "Tooltip": "Jump to previous track."
+  },
+  "com.rgpaul.vlc.volumeup": {
+    "Name": "Volume Up", 
+    "Tooltip": "Increase the volume."
+  },
+  "com.rgpaul.vlc.volumedown": {
+    "Name": "Volume Down", 
+    "Tooltip": "Decrease the volume."
   }
 }

@@ -100,6 +100,34 @@ bool VlcConnectionManager::sendPause(nlohmann::json& outPayload) const
     return sendGetRequest(target, outPayload);
 }
 
+bool VlcConnectionManager::sendNext(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=pl_next";
+    
+    return sendGetRequest(target, outPayload);
+}
+
+bool VlcConnectionManager::sendPrevious(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=pl_previous";
+    
+    return sendGetRequest(target, outPayload);
+}
+
+bool VlcConnectionManager::sendVolumeUp(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=volume&val=+10";
+    
+    return sendGetRequest(target, outPayload);
+}
+
+bool VlcConnectionManager::sendVolumeDown(nlohmann::json& outPayload) const
+{
+    auto const target = "/requests/status.json?command=volume&val=-10";
+    
+    return sendGetRequest(target, outPayload);
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Private
 // ---------------------------------------------------------------------------------------------------------------------

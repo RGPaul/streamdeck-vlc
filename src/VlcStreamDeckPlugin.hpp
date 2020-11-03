@@ -58,9 +58,9 @@ private:
 	CallBackTimer* _timer { nullptr };
 	VlcConnectionManager* _vlcConnectionManager { nullptr };
 
-	// we store the number of failed update calls - if the last 5 calls failed, we will stop so we don't drawn
-	// the log file
-	uint8_t _lastUnsuccessfulUpdates { 0 };
+	// we store the number of failed vlc network calls - if the last 5 calls failed, we will stop the update polling so 
+	// we don't drawn the log file
+	uint8_t _lastUnsuccessfullCalls { 0 };
 
 	VlcStatus _currentStatus;
 
@@ -69,5 +69,11 @@ private:
 	
 	// updates the stream deck buttons with the given payload (must be from status.json)
 	void updateVlcStatus(const nlohmann::json &payload);
+
+	void keyPressedPlay(const nlohmann::json &inPayload);
+	void keyPressedNext(const nlohmann::json &inPayload);
+	void keyPressedPrevious(const nlohmann::json &inPayload);
+	void keyPressedVolumeUp(const nlohmann::json &inPayload);
+	void keyPressedVolumeDown(const nlohmann::json &inPayload);
 
 };

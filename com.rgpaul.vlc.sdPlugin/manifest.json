@@ -30,6 +30,54 @@
             "SupportedInMultiActions": false,
             "Tooltip": "Starts or pauses playback.", 
             "UUID": "com.rgpaul.vlc.play"
+        },
+        {
+            "Icon": "images/actions/next", 
+            "Name": "Next",
+            "States": [
+                {
+                    "Image": "images/keys/next"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "Jump to next track.", 
+            "UUID": "com.rgpaul.vlc.next"
+        },
+        {
+            "Icon": "images/actions/prev", 
+            "Name": "Previous",
+            "States": [
+                {
+                    "Image": "images/keys/prev"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "Jump to previous track.", 
+            "UUID": "com.rgpaul.vlc.prev"
+        },
+        {
+            "Icon": "images/actions/volume_up", 
+            "Name": "Volume Up",
+            "States": [
+                {
+                    "Image": "images/keys/volume_up"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "Increase the volume.", 
+            "UUID": "com.rgpaul.vlc.volumeup"
+        },
+        {
+            "Icon": "images/actions/volume_down", 
+            "Name": "Volume Down",
+            "States": [
+                {
+                    "Image": "images/keys/volume_down"
+                }
+            ], 
+            "SupportedInMultiActions": false,
+            "Tooltip": "Decrease the volume.", 
+            "UUID": "com.rgpaul.vlc.volumedown"
         }
     ], 
     "SDKVersion": 2,

@@ -10,8 +10,6 @@
 
 #include "VlcStreamDeckPlugin.hpp"
 
-#include <atomic>
-
 #include <StreamDeckSdk/EPLJSONUtils.h>
 #include <StreamDeckSdk/ESDConnectionManager.h>
 
@@ -63,7 +61,7 @@ void VlcStreamDeckPlugin::UpdateTimer()
 	//
 	// Warning: UpdateTimer() is running in the timer thread
 	//
-	if(mConnectionManager != nullptr && _lastUnsuccessfulUpdates < 5)
+	if(mConnectionManager != nullptr && _lastUnsuccessfullCalls < 5)
 	{
 		updateVlcStatus();
 	}
@@ -77,24 +75,27 @@ void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const st
 	// Play / Pause
 	if (inAction == "com.rgpaul.vlc.play")
 	{
-		nlohmann::json payload;
-		int state = EPLJSONUtils::GetIntByName(inPayload, "state");
-		bool success { false };
-
-		if (state == kKeyStatePlay) 
-			success = _vlcConnectionManager->sendPlay(payload);
-		else
-			success = _vlcConnectionManager->sendPause(payload);
-
-		if (success)
-		{
-			mConnectionManager->LogMessage("play/pause success");
-		}
-		else
-		{
-			std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
-			mConnectionManager->LogMessage("play/pause failed: " + logMessage);
-		}
+		keyPressedPlay(inPayload);
+	}
+	// Next Title
+	else if (inAction == "com.rgpaul.vlc.next")
+	{
+		keyPressedNext(inPayload);
+	}
+	// Previous Title
+	else if (inAction == "com.rgpaul.vlc.prev")
+	{
+		keyPressedPrevious(inPayload);
+	}
+	// Volume Up
+	else if (inAction == "com.rgpaul.vlc.volumeup")
+	{
+		keyPressedVolumeUp(inPayload);
+	}
+	// Volume Down
+	else if (inAction == "com.rgpaul.vlc.volumedown")
+	{
+		keyPressedVolumeDown(inPayload);
 	}
 }
 
@@ -191,12 +192,12 @@ void VlcStreamDeckPlugin::updateVlcStatus()
 		// get's the status.json from vlc
 		if (_vlcConnectionManager->getStatus(payload))
 		{
-			_lastUnsuccessfulUpdates = 0;
+			_lastUnsuccessfullCalls = 0;
 			updateVlcStatus(payload);
 		}
 		else
 		{
-			_lastUnsuccessfulUpdates++;
+			_lastUnsuccessfullCalls++;
 			std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
 			mConnectionManager->LogMessage("update status failed: " + logMessage);
 		}
@@ -224,4 +225,90 @@ void VlcStreamDeckPlugin::updateVlcStatus(const nlohmann::json &payload)
 		mConnectionManager->SetTitle(_currentStatus.songTitle(), context, kESDSDKTarget_HardwareAndSoftware);
 	
 	_visibleContextsMutex.unlock();
+}
+
+void VlcStreamDeckPlugin::keyPressedPlay(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	int state = EPLJSONUtils::GetIntByName(inPayload, "state");
+	bool success { false };
+
+	if (state == kKeyStatePlay) 
+		success = _vlcConnectionManager->sendPlay(payload);
+	else
+		success = _vlcConnectionManager->sendPause(payload);
+
+	if (success)
+	{
+		_lastUnsuccessfullCalls = 0;
+	}
+	else
+	{
+		std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+		mConnectionManager->LogMessage("play/pause failed: " + logMessage);
+	}
+}
+
+void VlcStreamDeckPlugin::keyPressedNext(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendNext(payload);
+
+	if (success)
+	{
+		_lastUnsuccessfullCalls = 0;
+	}
+	else
+	{
+		std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+		mConnectionManager->LogMessage("next failed: " + logMessage);
+	}
+}
+
+void VlcStreamDeckPlugin::keyPressedPrevious(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendPrevious(payload);
+
+	if (success)
+	{
+		_lastUnsuccessfullCalls = 0;
+	}
+	else
+	{
+		std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+		mConnectionManager->LogMessage("previous failed: " + logMessage);
+	}
+}
+
+void VlcStreamDeckPlugin::keyPressedVolumeUp(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendVolumeUp(payload);
+
+	if (success)
+	{
+		_lastUnsuccessfullCalls = 0;
+	}
+	else
+	{
+		std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+		mConnectionManager->LogMessage("volume up failed: " + logMessage);
+	}
+}
+
+void VlcStreamDeckPlugin::keyPressedVolumeDown(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendVolumeDown(payload);
+
+	if (success)
+	{
+		_lastUnsuccessfullCalls = 0;
+	}
+	else
+	{
+		std::string logMessage = EPLJSONUtils::GetStringByName(payload, "logMessage");
+		mConnectionManager->LogMessage("volume down failed: " + logMessage);
+	}
 }
