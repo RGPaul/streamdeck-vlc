@@ -16,11 +16,19 @@ Save your settings and restart VLC. Each time you start VLC, the web server will
 This plugin supports macOS and Windows 10.
 
 ## Compiling on Windows 10
-For compiling on Windows 10 you have to install Visual Studio 2019 and CMake.  
+For compiling on Windows 10 you have to install [Visual Studio 2019](https://visualstudio.microsoft.com) and [CMake](https://cmake.org/).  
 You also have to install Boost 1.73.0 or later under `C:\include` and `C:\lib` or pass the `Boost_ROOT` option.  
 ```
 cmake -G "Visual Studio 16 2019" -A x64 -S . -B "build64"
 cmake --build build64 --config Release
+```
+
+## Compiling on macOS
+For compiling on macOS you have to install [Xcode](https://developer.apple.com/xcode/) and [CMake](https://cmake.org/).  
+You also have to install Boost 1.73.0 or later under `/usr/local/include` and `/usr/local/lib` or pass the `Boost_ROOT` option.  
+```
+cmake -S . -B build
+cmake --build build --config Release
 ```
 
 ## Licence
