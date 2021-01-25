@@ -27,7 +27,7 @@
                     "Name": "Pause"
                 }
             ], 
-            "SupportedInMultiActions": false,
+            "SupportedInMultiActions": true,
             "Tooltip": "Starts or pauses playback.", 
             "UUID": "com.rgpaul.vlc.play"
         },
@@ -39,7 +39,7 @@
                     "Image": "images/keys/next"
                 }
             ], 
-            "SupportedInMultiActions": false,
+            "SupportedInMultiActions": true,
             "Tooltip": "Jump to next track.", 
             "UUID": "com.rgpaul.vlc.next"
         },
@@ -51,7 +51,7 @@
                     "Image": "images/keys/prev"
                 }
             ], 
-            "SupportedInMultiActions": false,
+            "SupportedInMultiActions": true,
             "Tooltip": "Jump to previous track.", 
             "UUID": "com.rgpaul.vlc.prev"
         },
@@ -63,7 +63,7 @@
                     "Image": "images/keys/volume_up"
                 }
             ], 
-            "SupportedInMultiActions": false,
+            "SupportedInMultiActions": true,
             "Tooltip": "Increase the volume.", 
             "UUID": "com.rgpaul.vlc.volumeup"
         },
@@ -75,7 +75,7 @@
                     "Image": "images/keys/volume_down"
                 }
             ], 
-            "SupportedInMultiActions": false,
+            "SupportedInMultiActions": true,
             "Tooltip": "Decrease the volume.", 
             "UUID": "com.rgpaul.vlc.volumedown"
         }
@@ -91,7 +91,7 @@
     "Category": "VLC Remote",
     "CategoryIcon": "images/category",
     "URL": "https://github.com/RGPaul/streamdeck-vlc", 
-    "Version": "1.0",
+    "Version": "1.0.1",
     "OS": [
         {
             "Platform": "mac", 
