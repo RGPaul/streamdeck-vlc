@@ -55,7 +55,7 @@
             ], 
             "SupportedInMultiActions": false,
             "Tooltip": "Starts or pauses playback.", 
-            "UUID": "com.rgpaul.vlc.play_pause"
+            "UUID": "com.rgpaul.vlc.playpause"
         },
         {
             "Icon": "images/actions/next", 

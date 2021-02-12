@@ -86,7 +86,7 @@ void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const st
 		keyPressedPause(inPayload);
 	}
 	// Play / Pause
-	else if (inAction == "com.rgpaul.vlc.play_pause")
+	else if (inAction == "com.rgpaul.vlc.playpause")
 	{
 		keyPressedPlayPause(inPayload);
 	}
