@@ -6,9 +6,17 @@
     "Name": "Title", 
     "Tooltip": "Zeigt den aktuellen Titel an."
   },
-  "com.rgpaul.vlc.play": {
+  "com.rgpaul.vlc.play_pause": {
     "Name": "Play / Pause", 
     "Tooltip": "Startet oder pausiert die Wiedergabe."
+  },
+  "com.rgpaul.vlc.play": {
+    "Name": "Play", 
+    "Tooltip": "Startet die Wiedergabe."
+  },
+  "com.rgpaul.vlc.pause": {
+    "Name": "Pause", 
+    "Tooltip": "Pausiert die Wiedergabe."
   },
   "com.rgpaul.vlc.next": {
     "Name": "Next", 

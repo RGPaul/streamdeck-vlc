@@ -15,6 +15,32 @@
             "UUID": "com.rgpaul.vlc.title"
         },
         {
+            "Icon": "images/actions/play", 
+            "Name": "Play",
+            "States": [
+                {
+                    "Image": "images/keys/play",
+                    "Name": "Play"
+                }
+            ], 
+            "SupportedInMultiActions": true,
+            "Tooltip": "Starts playback.", 
+            "UUID": "com.rgpaul.vlc.play"
+        },
+        {
+            "Icon": "images/actions/pause", 
+            "Name": "Pause",
+            "States": [
+                {
+                    "Image": "images/keys/pause",
+                    "Name": "Pause"
+                }
+            ], 
+            "SupportedInMultiActions": true,
+            "Tooltip": "Pauses playback.", 
+            "UUID": "com.rgpaul.vlc.pause"
+        },
+        {
             "Icon": "images/actions/play_pause", 
             "Name": "Play / Pause",
             "States": [
@@ -27,9 +53,9 @@
                     "Name": "Pause"
                 }
             ], 
-            "SupportedInMultiActions": true,
+            "SupportedInMultiActions": false,
             "Tooltip": "Starts or pauses playback.", 
-            "UUID": "com.rgpaul.vlc.play"
+            "UUID": "com.rgpaul.vlc.play_pause"
         },
         {
             "Icon": "images/actions/next", 
@@ -91,7 +117,7 @@
     "Category": "VLC Remote",
     "CategoryIcon": "images/category",
     "URL": "https://github.com/RGPaul/streamdeck-vlc", 
-    "Version": "1.0.1",
+    "Version": "1.1.0",
     "OS": [
         {
             "Platform": "mac", 

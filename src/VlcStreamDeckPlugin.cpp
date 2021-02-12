@@ -75,10 +75,20 @@ void VlcStreamDeckPlugin::KeyDownForAction(const std::string& inAction, const st
 {
 	mConnectionManager->LogMessage("key pressed: " + inAction);
 
-	// Play / Pause
+	// Play
 	if (inAction == "com.rgpaul.vlc.play")
 	{
 		keyPressedPlay(inPayload);
+	}
+	// Pause
+	else if (inAction == "com.rgpaul.vlc.pause")
+	{
+		keyPressedPause(inPayload);
+	}
+	// Play / Pause
+	else if (inAction == "com.rgpaul.vlc.play_pause")
+	{
+		keyPressedPlayPause(inPayload);
 	}
 	// Next Title
 	else if (inAction == "com.rgpaul.vlc.next")
@@ -232,6 +242,22 @@ void VlcStreamDeckPlugin::updateVlcStatus(const nlohmann::json &payload)
 }
 
 void VlcStreamDeckPlugin::keyPressedPlay(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendPause(payload);
+
+	processVlcResponse("play", success, payload);
+}
+
+void VlcStreamDeckPlugin::keyPressedPause(const nlohmann::json &inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendPause(payload);
+
+	processVlcResponse("pause", success, payload);
+}
+
+void VlcStreamDeckPlugin::keyPressedPlayPause(const nlohmann::json &inPayload)
 {
 	nlohmann::json payload;
 	int state = EPLJSONUtils::GetIntByName(inPayload, "state");

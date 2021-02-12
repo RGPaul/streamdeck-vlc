@@ -72,6 +72,8 @@ private:
 	void updateVlcStatus(const nlohmann::json& payload);
 
 	void keyPressedPlay(const nlohmann::json& inPayload);
+	void keyPressedPause(const nlohmann::json& inPayload);
+	void keyPressedPlayPause(const nlohmann::json& inPayload);
 	void keyPressedNext(const nlohmann::json& inPayload);
 	void keyPressedPrevious(const nlohmann::json& inPayload);
 	void keyPressedVolumeUp(const nlohmann::json& inPayload);
