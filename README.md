@@ -16,11 +16,15 @@ Save your settings and restart VLC. Each time you start VLC, the web server will
 This plugin supports macOS and Windows 10.
 
 ## Installing on macOS
-### Activiating VLC Web Interface
-- Go to VLC > Preferences > Interface. There is a section named "HTTP web interface", enable the checkbox for the interface, and set a password. The password is required. 
+
+### Activating VLC Web Interface
+1. Go to VLC > Preferences > Interface. There is a section named "HTTP web interface", enable the checkbox for the interface, and set a password. The password is required. 
+2. Restart VLC player
+3. Ensure you have enabled the player by going to http://localhost:8080 in your web browser. Leave the username blank, and use the password you set. If you see a VLC player menu come up, you have successfully enabled the VLC Web interface.
+ 
 ### Configuring Stream Deck VLC Control
-- In your stream deck configuration manager, add a VLC Control button.
-- Click on this button, and set the following parameters, replacing password with the password you previously set.
+1. In your stream deck configuration manager, add a VLC Control button.
+2. Click on this button, and set the following parameters, replacing password with the password you previously set.
     + Host: localhost
     + Port: 8080
     + Password: {PASSWORD SET IN VLC}
