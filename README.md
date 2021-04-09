@@ -15,6 +15,16 @@ Save your settings and restart VLC. Each time you start VLC, the web server will
 ## Platforms
 This plugin supports macOS and Windows 10.
 
+## Installing on macOS
+### Activiating VLC Web Interface
+- Go to VLC > Preferences > Interface. There is a section named "HTTP web interface", enable the checkbox for the interface, and set a password. The password is required. 
+### Configuring Stream Deck VLC Control
+- In your stream deck configuration manager, add a VLC Control button.
+- Click on this button, and set the following parameters, replacing password with the password you previously set.
+    + Host: localhost
+    + Port: 8080
+    + Password: {PASSWORD SET IN VLC}
+
 ## Compiling on Windows 10
 For compiling on Windows 10 you have to install [Visual Studio 2019](https://visualstudio.microsoft.com) and [CMake](https://cmake.org/).  
 You also have to install [Boost](https://www.boost.org/) 1.73.0 or later under `C:\include` and `C:\lib` or pass the `Boost_ROOT` option.  
