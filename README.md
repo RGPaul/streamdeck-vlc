@@ -38,8 +38,6 @@ Save your settings and restart VLC. Each time you start VLC, the web server will
     + Port: 8080
     + Password: {PASSWORD SET IN VLC}
 
-
-
 ## Compiling on Windows 10
 For compiling on Windows 10 you have to install [Visual Studio 2019](https://visualstudio.microsoft.com) and [CMake](https://cmake.org/).  
 You also have to install [Boost](https://www.boost.org/) 1.73.0 or later under `C:\include` and `C:\lib` or pass the `Boost_ROOT` option.  
@@ -52,7 +50,7 @@ cmake --build build64 --config Release
 For compiling on macOS you have to install [Xcode](https://developer.apple.com/xcode/) and [CMake](https://cmake.org/).  
 You also have to install [Boost](https://www.boost.org/) 1.73.0 or later under `/usr/local/include` and `/usr/local/lib` or pass the `Boost_ROOT` option.  
 ```
-cmake -S . -B build
+cmake -S . -DCMAKE_OSX_ARCHITECTURES="x86_64;arm64" -B build
 cmake --build build --config Release
 ```
 

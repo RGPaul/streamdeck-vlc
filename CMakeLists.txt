@@ -16,7 +16,7 @@ include(CMakeToolsHelpers OPTIONAL)
 set(CMAKE_FIND_FRAMEWORK LAST)
 
 # add local cmake modules to module path
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_SOURCE_DIR} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
 
 # Conan
 if (EXISTS ${CMAKE_BINARY_DIR}/conanbuildinfo.cmake)
