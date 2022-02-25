@@ -56,6 +56,10 @@ cmake -S . -B build
 cmake --build build --config Release
 ```
 
+## Troubleshooting
+1. Check that you can connect and control the VLC-Player via your Webbrowser.
+2. Sometimes the Stream Deck has problems communicating with a plugin. Restarting the computer fixes the problem.
+
 ## Licence
 Stream Deck VLC Control is licenced under [The MIT License (MIT)](LICENSE) and is not officially associated with Elgato or the VideoLAN Organization.
 
