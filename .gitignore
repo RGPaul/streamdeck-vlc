@@ -7,6 +7,9 @@ build32/
 DistributionTool
 DistributionTool.exe
 
+/com.rgpaul.vlc.sdPlugin/vlc-remote
+/com.rgpaul.vlc.sdPlugin/vlc-remote.exe
+
 # Created by https://www.toptal.com/developers/gitignore/api/c++,macos,windows,visualstudiocode,cmake,xcode
 # Edit at https://www.toptal.com/developers/gitignore?templates=c++,macos,windows,visualstudiocode,cmake,xcode
 

@@ -6,7 +6,7 @@
     "Name": "Title", 
     "Tooltip": "Zeigt den aktuellen Titel an."
   },
-  "com.rgpaul.vlc.play_pause": {
+  "com.rgpaul.vlc.playpause": {
     "Name": "Play / Pause", 
     "Tooltip": "Startet oder pausiert die Wiedergabe."
   },
@@ -25,6 +25,14 @@
   "com.rgpaul.vlc.prev": {
     "Name": "Previous", 
     "Tooltip": "Zum vorherigen Lied springen."
+  },
+  "com.rgpaul.vlc.forward": {
+    "Name": "Forward", 
+    "Tooltip": "Spring um eine angebene Zeit in Sekunden vor."
+  },
+  "com.rgpaul.vlc.backward": {
+    "Name": "Backward", 
+    "Tooltip": "Spring um eine angebene Zeit in Sekunden zurück."
   },
   "com.rgpaul.vlc.volumeup": {
     "Name": "Volume Up", 

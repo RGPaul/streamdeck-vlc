@@ -303,6 +303,22 @@ void VlcStreamDeckPlugin::keyPressedVolumeDown(const nlohmann::json &inPayload)
 	processVlcResponse("volume down", success, payload);
 }
 
+void VlcStreamDeckPlugin::keyPressedForward(const nlohmann::json& inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendSeek(10, payload);
+
+	processVlcResponse("forward", success, payload);
+}
+
+void VlcStreamDeckPlugin::keyPressedBackward(const nlohmann::json& inPayload)
+{
+	nlohmann::json payload;
+	bool success = _vlcConnectionManager->sendSeek(-10, payload);
+
+	processVlcResponse("backward", success, payload);
+}
+
 void VlcStreamDeckPlugin::processVlcResponse(const std::string& functionName, bool success, 
 	const nlohmann::json& payload)
 {

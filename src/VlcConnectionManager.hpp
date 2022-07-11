@@ -100,6 +100,15 @@ public:
 	 */
 	bool sendVolumeDown(nlohmann::json& outPayload) const;
 
+	/*!
+	 * @brief send seek command to vlc server
+	 * @param seconds positive seconds will forward by given seconds negative seconds will backward by given seconds
+	 * @param outPayload output parameter for status response payload on success and error payload on failure
+	 * 
+	 * @return true on success and and false on failure
+	 */
+	bool sendSeek(int seconds, nlohmann::json& outPayload) const;
+
 private:
 
     std::string _host { "127.0.0.1" };

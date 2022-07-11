@@ -82,6 +82,30 @@
             "UUID": "com.rgpaul.vlc.prev"
         },
         {
+            "Icon": "images/actions/forward", 
+            "Name": "Forward",
+            "States": [
+                {
+                    "Image": "images/keys/forward"
+                }
+            ], 
+            "SupportedInMultiActions": true,
+            "Tooltip": "Forwards the track by a specified number of seconds.", 
+            "UUID": "com.rgpaul.vlc.forward"
+        },
+        {
+            "Icon": "images/actions/backward", 
+            "Name": "Backward",
+            "States": [
+                {
+                    "Image": "images/keys/backward"
+                }
+            ], 
+            "SupportedInMultiActions": true,
+            "Tooltip": "Rewinds the track by a specified number of seconds.",
+            "UUID": "com.rgpaul.vlc.backward"
+        },
+        {
             "Icon": "images/actions/volume_up", 
             "Name": "Volume Up",
             "States": [
@@ -117,11 +141,11 @@
     "Category": "VLC Remote",
     "CategoryIcon": "images/category",
     "URL": "https://github.com/RGPaul/streamdeck-vlc", 
-    "Version": "1.1.0",
+    "Version": "1.2.0",
     "OS": [
         {
             "Platform": "mac", 
-            "MinimumVersion" : "10.11"
+            "MinimumVersion" : "10.12"
         },
         {
             "Platform": "windows", 

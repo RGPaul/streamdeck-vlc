@@ -24,7 +24,21 @@ var uuid, settings;
 $SD.on('connected', (jsonObj) => 
 {
     uuid = jsonObj.uuid;
+    actionInfo = jsonObj.actionInfo.action;
+    ctx = jsonObj.actionInfo.context;
+    lang = jsonObj.applicationInfo.application.language;
+    
     $SD.api.getGlobalSettings(uuid);
+
+    $SD.api.logMessage("Hello RGP!");
+
+
+    
+
+    
+
+    const el = document.getElementById('forward_backward_settings');
+    el.classList.remove('hidden');
 });
 
 $SD.on('didReceiveGlobalSettings', (jsonObj) => 

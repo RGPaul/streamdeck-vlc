@@ -69,11 +69,12 @@ set(StreamDeckSdk_SRC   "${CMAKE_SOURCE_DIR}/deps/StreamDeckSdk/ESDConnectionMan
 ### create executable ###
 
 add_executable(vlc-remote
-                ${StreamDeckSdk_SRC}
-                src/VlcConnectionManager.cpp
-                src/VlcStatus.cpp
-                src/VlcStreamDeckPlugin.cpp
-                src/main.cpp)
+    ${StreamDeckSdk_SRC}
+    src/VlcConnectionManager.cpp
+    src/VlcStatus.cpp
+    src/VlcStreamDeckPlugin.cpp
+    src/main.cpp
+)
 
 if(APPLE)
     # add macos specific sources
@@ -86,24 +87,23 @@ if (WIN32)
 
     # set msvc runtime property
     set_property(TARGET vlc-remote PROPERTY
-                    MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+        MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+    )
 endif()
 
 ### link libraries ###
 
 target_include_directories(vlc-remote PRIVATE 
-                            ${Boost_INCLUDE_DIRS}
-                            ${NlohmannJson_INCLUDE}
-                            ${Websocketpp_INCLUDE}
-                            ${StreamDeckSdk_INCLUDE}
-                            )
+    ${Boost_INCLUDE_DIRS}
+    ${NlohmannJson_INCLUDE}
+    ${Websocketpp_INCLUDE}
+    ${StreamDeckSdk_INCLUDE}
+)
 
-target_link_libraries(vlc-remote
-                        ${Boost_LIBRARIES})
+target_link_libraries(vlc-remote ${Boost_LIBRARIES})
 
 if(APPLE)
-    target_link_libraries(vlc-remote
-                            "-framework Foundation")
+    target_link_libraries(vlc-remote "-framework Foundation")
 endif()
 
 ### PCH ###
@@ -123,4 +123,5 @@ endif()
 
 # installation 
 install(TARGETS vlc-remote
-    RUNTIME DESTINATION bin)
+    RUNTIME DESTINATION bin
+)

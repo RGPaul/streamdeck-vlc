@@ -128,6 +128,12 @@ bool VlcConnectionManager::sendVolumeDown(nlohmann::json& outPayload) const
     return sendGetRequest(target, outPayload);
 }
 
+bool VlcConnectionManager::sendSeek(int seconds, nlohmann::json& outPayload) const {
+    auto const target = "/requests/status.json?command=seek&val=" + std::to_string(seconds);
+    
+    return sendGetRequest(target, outPayload);
+}
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Private
 // ---------------------------------------------------------------------------------------------------------------------
