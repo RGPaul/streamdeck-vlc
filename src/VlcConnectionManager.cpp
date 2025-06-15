@@ -95,9 +95,20 @@ bool VlcConnectionManager::sendPlay(nlohmann::json& outPayload) const
 
 bool VlcConnectionManager::sendPause(nlohmann::json& outPayload) const
 {
-    auto const target = "/requests/status.json?command=pl_pause";
-    
-    return sendGetRequest(target, outPayload);
+    nlohmann::json statusPayload;
+    if (!sendGetRequest("/requests/status.json", statusPayload)) {
+        return false;
+    }
+
+    std::string state = statusPayload.value("state", "");
+    if (state == "playing") {
+        auto const target = "/requests/status.json?command=pl_pause";
+        return sendGetRequest(target, outPayload);
+    }
+
+    // Already paused or stopped, nothing to do
+    outPayload = statusPayload;
+    return true;
 }
 
 bool VlcConnectionManager::sendNext(nlohmann::json& outPayload) const
