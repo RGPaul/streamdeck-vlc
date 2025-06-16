@@ -244,7 +244,7 @@ void VlcStreamDeckPlugin::updateVlcStatus(const nlohmann::json &payload)
 void VlcStreamDeckPlugin::keyPressedPlay(const nlohmann::json &inPayload)
 {
 	nlohmann::json payload;
-	bool success = _vlcConnectionManager->sendPause(payload);
+	bool success = _vlcConnectionManager->sendPlay(payload);
 
 	processVlcResponse("play", success, payload);
 }
